@@ -546,3 +546,17 @@ footer {
     background-color: #128C7E;
 }
 
+@keyframes slideInFromRight {
+    0% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.animate-h1 {
+    animation: slideInFromRight 1s ease-out;
+}
