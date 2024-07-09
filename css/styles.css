@@ -145,7 +145,7 @@ footer {
 }
 
 .item-options button {
-    padding: 8px 15px;
+    padding: 3px 3px;
     background-color: #fcbf49;
     color: white;
     border: none;
@@ -154,7 +154,7 @@ footer {
 }
 
 .item-options button:hover {
-    background-color: #eae2b7;
+    background-color: #f8eeb7;
 }
 
 /* Estilos para la sección Nosotros */
@@ -289,7 +289,7 @@ footer {
 
     .item-options select,
     .item-options button {
-        margin-top: 5px;
+        margin-top: 3px;
         width: 100%;
     }
 }
@@ -345,7 +345,7 @@ footer {
 
     .item-options select,
     .item-options button {
-        margin-top: 5px;
+        margin-top: 3px;
         width: 100%;
     }
 }
@@ -402,7 +402,7 @@ footer {
 
     .item-options select,
     .item-options button {
-        margin-top: 5px;
+        margin-top: 3px;
         width: 100%;
     }
 }
