@@ -529,3 +529,124 @@ footer {
     animation: slideInFromRight 1s ease-out;
 }
 
+/* Estilos para los iconos flotantes */
+.whatsapp-float,
+.carrito-float {
+    position: fixed;
+    width: 50px;
+    height: 50px;
+    bottom: 20px;
+    background-color: #25D366;
+    color: #FFFFFF;
+    border-radius: 50%;
+    text-align: center;
+    font-size: 24px; /* Tamaño del icono ajustado */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.whatsapp-float:hover {
+    background-color: #128C7E;
+    transform: scale(1.1); /* Aumenta ligeramente el tamaño al pasar el ratón */
+}
+
+.carrito-float {
+    right: 20px; /* Ajusta la posición horizontal */
+    background-color: #fcbf49;
+}
+
+.carrito-float:hover {
+    background-color: #eae2b7;
+    transform: scale(1.1); /* Aumenta ligeramente el tamaño al pasar el ratón */
+}
+
+/* Estilos para el contenedor del carrito */
+.carrito-container {
+    background-color: #ffffff;
+    padding: 20px;
+    width: 90%; /* Ajuste del ancho para un diseño más fluido */
+    max-width: 1200px; /* Añadido un ancho máximo para pantallas grandes */
+    margin: 20px auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.carrito-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #003049;
+    font-size: 2rem; /* Tamaño del texto ajustado */
+}
+
+/* Estilos para la tabla del carrito */
+.carrito-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.carrito-table th, .carrito-table td {
+    border: 1px solid #ccc;
+    padding: 12px; /* Aumento del padding para mayor claridad */
+    text-align: center;
+}
+
+.carrito-table th {
+    background-color: #fcbf49;
+    color: #ffffff;
+}
+
+.carrito-table td input.cantidad-input {
+    width: 60px;
+    text-align: center;
+    padding: 5px;
+}
+
+/* Estilos para los botones de eliminar */
+.btn-eliminar {
+    background-color: #ff4d4d;
+    color: #ffffff;
+    border: none;
+    padding: 6px 12px; /* Aumento del padding para mejorar la accesibilidad */
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.btn-eliminar:hover {
+    background-color: #e60000;
+    transform: scale(1.05); /* Aumenta ligeramente el tamaño al pasar el ratón */
+}
+
+/* Estilos para el resumen del carrito */
+.carrito-resumen {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.carrito-resumen p {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+
+/* Estilos para el botón de pagar */
+.btn-pagar {
+    background-color: #fcbf49;
+    color: #ffffff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 1.2rem;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.btn-pagar:hover {
+    background-color: #eae2b7;
+    transform: scale(1.05); /* Aumenta ligeramente el tamaño al pasar el ratón */
+}
+
