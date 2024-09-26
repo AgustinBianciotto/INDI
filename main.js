@@ -1,4 +1,4 @@
-// Array of products
+// Array de productos
 const productos = [
     { id: 1, nombre: "Camisa de Algodón", precio: 30.00 },
     { id: 2, nombre: "Pantalón de Jeans", precio: 40.00 },
@@ -14,46 +14,42 @@ const productos = [
     { id: 12, nombre: "Remera Estampada", precio: 25.00 },
     { id: 13, nombre: "Remera Básica", precio: 18.00 },
     { id: 14, nombre: "Remera de Colores", precio: 22.00 }
-    // Agrega más productos aquí según sea necesario
 ];
 
 // Variables
 let carrito = [];
 const impuestoFijo = 21;
 
-// Function to add a product to the cart
+// Función para agregar un producto al carrito
 function agregarAlCarrito(idProducto, cantidad) {
     const producto = productos.find(p => p.id === idProducto);
+    
     if (producto) {
-        const productoEnCarrito = carrito.find(p => p.id === idProducto);
-        if (productoEnCarrito) {
-            productoEnCarrito.cantidad += cantidad;
-        } else {
-            carrito.push({ ...producto, cantidad });
-        }
-        console.log(`${producto.nombre} agregado al carrito.`);
+        const { id, nombre, precio } = producto;
+        const productoEnCarrito = carrito.find(p => p.id === id);
+        productoEnCarrito 
+            ? productoEnCarrito.cantidad += cantidad 
+            : carrito.push({ id, nombre, precio, cantidad });
+        
+        console.log(`${nombre} agregado al carrito.`);
         actualizarTablaCarrito();
     } else {
         console.log("Producto no encontrado.");
     }
 }
 
-// Function to calculate the total cart value with discount and tax
+// Función para calcular el valor total del carrito con descuento e impuesto
 function calcularTotalCarrito(descuento) {
-    let subtotal = carrito.reduce((total, producto) => total + (producto.precio * producto.cantidad), 0);
-    let totalConDescuento = subtotal;
-
-    if (descuento > 0) {
-        totalConDescuento = subtotal - (subtotal * (descuento / 100));
-    }
-    let totalConImpuestos = totalConDescuento + (totalConDescuento * (impuestoFijo / 100));
+    const subtotal = carrito.reduce((total, producto) => total + (producto.precio * producto.cantidad), 0);
+    const totalConDescuento = descuento > 0 ? subtotal - (subtotal * (descuento / 100)) : subtotal;
+    const totalConImpuestos = totalConDescuento + (totalConDescuento * (impuestoFijo / 100));
     return totalConImpuestos.toFixed(2); 
 }
 
-// Function to display the cart contents in the table
+// Función para mostrar el contenido del carrito en la tabla
 function actualizarTablaCarrito() {
     const tbody = document.querySelector('.carrito-table tbody');
-    tbody.innerHTML = ''; // Clear existing rows
+    tbody.innerHTML = ''; // Limpiar filas existentes
 
     carrito.forEach(producto => {
         const tr = document.createElement('tr');
@@ -73,12 +69,37 @@ function actualizarTablaCarrito() {
     document.querySelector('.carrito-resumen p').innerHTML = `<strong>Total:</strong> $${total}`;
 }
 
-// Event delegation for removing products and updating quantities
+// Función para notificar resultados en el HTML
+function notificarResultado(mensaje) {
+    const notificacion = document.createElement('div');
+    notificacion.classList.add('notificacion');
+    notificacion.textContent = mensaje;
+    document.body.appendChild(notificacion);
+
+    setTimeout(() => {
+        notificacion.remove();
+    }, 3000);
+}
+
+// Guardar carrito en localStorage
+function guardarCarrito() {
+    localStorage.setItem('carrito', JSON.stringify(carrito));
+}
+
+// Cargar carrito desde localStorage
+function cargarCarrito() {
+    const carritoGuardado = localStorage.getItem('carrito');
+    carrito = carritoGuardado ? JSON.parse(carritoGuardado) : [];
+    actualizarTablaCarrito();
+}
+
+// Delegación de eventos para eliminar productos y actualizar cantidades
 document.querySelector('.carrito-table').addEventListener('click', function(event) {
     if (event.target.classList.contains('btn-eliminar')) {
         const idProducto = parseInt(event.target.dataset.id);
         carrito = carrito.filter(producto => producto.id !== idProducto);
         actualizarTablaCarrito();
+        guardarCarrito();
     }
 });
 
@@ -93,13 +114,20 @@ document.querySelector('.carrito-table').addEventListener('input', function(even
                 carrito = carrito.filter(p => p.id !== idProducto);
             }
             actualizarTablaCarrito();
+            guardarCarrito();
         }
     }
 });
 
-// Example usage: add some products to the cart (for demonstration)
+// Manejar evento de clic para el botón de pago
+document.querySelector('.btn-pagar').addEventListener('click', function() {
+    const total = calcularTotalCarrito(0);
+    notificarResultado(`El total de su compra es $${total}. ¡Gracias por comprar con nosotros!`);
+});
+
+// Cargar el carrito cuando la página se carga
+window.addEventListener('load', cargarCarrito);
+
+// Ejemplo de uso: agregar algunos productos al carrito (para demostración)
 agregarAlCarrito(1, 1);
 agregarAlCarrito(2, 2);
-
-// Uncomment to enable user interaction
-// interactuarConUsuario();
