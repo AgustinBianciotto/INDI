@@ -1,29 +1,29 @@
-// Array de productos
-const productos = [
-    { id: 1, nombre: "Campera elegante y moderna", precio: 50.00 },
-    { id: 2, nombre: "Campera deportiva", precio: 45.00 },
-    { id: 3, nombre: "Campera de cuero", precio: 80.00 },
-    { id: 4, nombre: "Campera casual", precio: 60.00 },
-    { id: 5, nombre: "Buzo con capucha", precio: 40.00 },
-    { id: 6, nombre: "Buzo deportivo", precio: 35.00 },
-    { id: 7, nombre: "Buzo informal", precio: 30.00 },
-    { id: 8, nombre: "Remera de algodón", precio: 20.00 },
-    { id: 9, nombre: "Remera estampada", precio: 25.00 },
-    { id: 10, nombre: "Remera básica", precio: 18.00 },
-    { id: 11, nombre: "Remera de colores", precio: 22.00 }
-];
-
-// Carrito
+// Variables globales para almacenar productos y carrito
+let productos = [];
 let carrito = [];
 
-// Función para mostrar notificaciones
-function mostrarNotificacion(mensaje) {
-    const notification = document.getElementById('notification');
-    notification.textContent = mensaje;
-    notification.style.display = 'block';
-    setTimeout(() => {
-        notification.style.display = 'none';
-    }, 3000);
+// Función para cargar productos desde un archivo JSON
+function cargarProductos() {
+    fetch('productos.json')  // Asegúrate de que la ruta sea correcta
+        .then(response => response.json())
+        .then(data => {
+            productos = data;
+            console.log("Productos cargados:", productos);  // Verifica que los productos se carguen
+        })
+        .catch(error => {
+            console.error("Error al cargar los productos:", error);
+        });
+}
+
+// Función para mostrar notificaciones con SweetAlert2
+function mostrarNotificacion(mensaje, tipo = "success") {
+    Swal.fire({
+        position: 'top-end',
+        icon: tipo,
+        title: mensaje,
+        showConfirmButton: false,
+        timer: 3000
+    });
 }
 
 // Función para agregar un producto al carrito
@@ -34,15 +34,17 @@ function agregarAlCarrito(idProducto, size) {
         const { id, nombre, precio } = producto;
         const productoEnCarrito = carrito.find(p => p.id === id && p.size === size);
         
+        // Si el producto ya está en el carrito, aumenta la cantidad
         if (productoEnCarrito) {
             productoEnCarrito.cantidad += 1;
         } else {
+            // Si no está, se añade un nuevo producto al carrito
             carrito.push({ id, nombre, precio, size, cantidad: 1 });
         }
         
         mostrarNotificacion(`${nombre} agregado al carrito.`);
         actualizarTablaCarrito();
-        guardarCarrito();
+        guardarCarrito();  // Guarda el carrito en localStorage
     } else {
         console.log("Producto no encontrado.");
     }
@@ -56,8 +58,9 @@ function calcularTotalCarrito() {
 // Función para mostrar el contenido del carrito en la tabla
 function actualizarTablaCarrito() {
     const tbody = document.querySelector('.carrito-table tbody');
-    tbody.innerHTML = ''; // Limpiar filas existentes
+    tbody.innerHTML = '';  // Limpiar filas existentes
 
+    // Crear una fila para cada producto en el carrito
     carrito.forEach(producto => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
@@ -72,6 +75,7 @@ function actualizarTablaCarrito() {
         tbody.appendChild(tr);
     });
 
+    // Mostrar el total del carrito
     const total = calcularTotalCarrito();
     document.querySelector('.carrito-resumen p').innerHTML = `<strong>Total:</strong> $${total}`;
 }
@@ -96,7 +100,7 @@ document.querySelector('.carrito-table').addEventListener('click', function(even
         carrito = carrito.filter(producto => !(producto.id === idProducto && producto.size === sizeProducto));
         actualizarTablaCarrito();
         guardarCarrito();
-        mostrarNotificacion("Producto eliminado del carrito.");
+        mostrarNotificacion("Producto eliminado del carrito.", "warning");
     }
 });
 
@@ -110,7 +114,7 @@ document.querySelector('.carrito-table').addEventListener('input', function(even
         if (producto) {
             if (cantidad <= 0) {
                 carrito = carrito.filter(p => !(p.id === idProducto && p.size === sizeProducto));
-                mostrarNotificacion("Producto eliminado del carrito.");
+                mostrarNotificacion("Producto eliminado del carrito.", "warning");
             } else {
                 producto.cantidad = cantidad;
             }
@@ -120,5 +124,8 @@ document.querySelector('.carrito-table').addEventListener('input', function(even
     }
 });
 
-// Cargar el carrito al inicio
-cargarCarrito();
+// Cargar el carrito y los productos al inicio
+document.addEventListener('DOMContentLoaded', () => {
+    cargarCarrito();  // Cargar carrito desde localStorage
+    cargarProductos();  // Cargar productos desde JSON
+});
