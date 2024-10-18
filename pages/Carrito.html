@@ -6,6 +6,7 @@
     <meta name="description" content="Carrito de compras - Indimoon. Revisa los productos que has agregado a tu carrito y realiza el pago.">
     <meta name="keywords" content="carrito de compras, Indimoon, moda, tienda de ropa, compra online">
     <link rel="stylesheet" href="../css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://kit.fontawesome.com/4fc71f41af.js" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
     <title>Carrito de Compras - Indimoon</title>
@@ -40,7 +41,7 @@
                         <th>Eliminar</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="carrito-body">
                 </tbody>
             </table>
             <div class="carrito-resumen">
@@ -53,5 +54,6 @@
         <p>© Indimoon 2024 | Ley de Defensa del Consumidor – Reclamos | Cookies | Reportar sitio | Powered by Grid Web Engine</p>
     </footer>
     <script src="../main.js"></script>
+    <script> actualizarTablaCarrito()</script>
 </body>
 </html>
